@@ -1,4 +1,6 @@
 // backend/models/index.js
+const fs = require('fs');
+const path = require('path');
 const { Sequelize } = require('sequelize');
 const config = require('../config/database');
 
@@ -19,7 +21,16 @@ const sequelize = new Sequelize(
   }
 );
 
+//Importamos los modelos
+const Genero = require('./genero')(sequelize, Sequelize.DataTypes);
+const Libro = require('./libro')(sequelize.DataTypes);
+
+Genero.hasMany(Libro, {foreignkey: 'generoId'});
+Libro.belongsTo(Genero, {foreignkey: 'generoId'});
+
 module.exports = {
   sequelize,
-  Sequelize
+  Sequelize,
+  Genero,
+  Libro
 };
