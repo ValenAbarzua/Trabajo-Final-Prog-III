@@ -1,5 +1,5 @@
 module.exports= (sequelize, DataTypes) => {
-    const Libro = sequelize.define ('Libro', {
+    const Libro = sequelize.define('Libro', {
         titulo: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -26,10 +26,12 @@ module.exports= (sequelize, DataTypes) => {
 
     })
 
-    Libro.associate = (models) => {
+    Libro.associate = function(models) {
         Libro.belongsTo(models.Genero, {
             foreignKey: 'generoId',
             as: 'genero',
         })
     }
+
+return Libro;
 }

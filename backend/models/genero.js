@@ -5,13 +5,13 @@ module.exports = (sequelize, DataTypes) => {
     const Genero= sequelize.define('Genero', {
         nombre: {
             type: DataTypes.STRING,
-            alowNull: false, //el string es obligatorio
+            allowNull: false, //el string es obligatorio
         }
     })
 
     //relacion entre el genero y los libros (un genero puede tener muchos libros)
-    Genero.associate = (models) => {
-        Genero.hasmany(models.Libro, {
+    Genero.associate = function(models){
+        Genero.hasMany(models.Libro, {
             foreignKey: 'generoId',
             as: 'libros'
         })

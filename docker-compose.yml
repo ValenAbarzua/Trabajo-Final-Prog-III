@@ -31,19 +31,11 @@ services:
       dockerfile: Dockerfile.dev
     container_name: app_backend
     restart: unless-stopped
-    environment:
-      NODE_ENV: development
-      PORT: 3001
-      DB_HOST: database
-      DB_PORT: 5432
-      DB_NAME: app_database
-      DB_USER: app_user
-      DB_PASSWORD: app_password
-      JWT_SECRET: your_jwt_secret_here
-      CORS_ORIGIN: http://localhost:3000
+    env_file:
+      - ./backend/.env
     ports:
       - "3001:3001"
-      - "9229:9229"  # Puerto para debugging
+      - "9229:9229"
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -53,6 +45,7 @@ services:
         condition: service_healthy
     networks:
       - app_network
+
 
   # Frontend con React y Hot Reload
   frontend:
