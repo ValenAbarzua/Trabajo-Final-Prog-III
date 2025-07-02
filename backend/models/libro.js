@@ -13,7 +13,7 @@ module.exports= (sequelize, DataTypes) => {
             allowNull: false,
         },
         estadoLectura: {
-            type: DataTypes.ENUM('leido, leyendo, por leer'),
+            type: DataTypes.ENUM('leido', 'leyendo', 'por leer'),
             allowNull: false,
         },
         calificacion: { //opcional pero si o si dentro del rango 1-5
@@ -23,12 +23,14 @@ module.exports= (sequelize, DataTypes) => {
                 max: 5,
             },
         },
-
     })
 
     Libro.associate = function(models) {
         Libro.belongsTo(models.Genero, {
-            foreignKey: 'generoId',
+            foreignKey:{ 
+                name: 'generoId',
+                allowNull: false,
+            },
             as: 'genero',
         })
     }

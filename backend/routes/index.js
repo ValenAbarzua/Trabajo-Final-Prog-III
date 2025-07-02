@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const generoRoutes = require('./generoRoutes');
+const libroRoutes = require('./libroRoutes');
 
 
 // Ruta de prueba
@@ -26,6 +27,7 @@ router.get('/test', (req, res) => {
 });
 
 router.use('/generos', generoRoutes); //ruta de generos 
+router.use('/libros', libroRoutes); //ruta de libros
 
 
 module.exports = router;

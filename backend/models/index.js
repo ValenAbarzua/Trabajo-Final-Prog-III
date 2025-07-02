@@ -24,6 +24,8 @@ const sequelize = new Sequelize(
 //Importamos los modelos
 const Genero = require('./genero')(sequelize, Sequelize.DataTypes);
 const Libro = require('./libro')(sequelize, Sequelize.DataTypes);
+if (Genero.associate) Genero.associate({ Libro });
+if (Libro.associate) Libro.associate({ Genero });
 
 Genero.hasMany(Libro, {foreignkey: 'generoId'});
 Libro.belongsTo(Genero, {foreignkey: 'generoId'});

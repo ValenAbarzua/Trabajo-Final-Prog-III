@@ -63,7 +63,7 @@ async function startServer() {
     
     // En desarrollo, sincronizar modelos
     if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync({ alter: false });
+      await sequelize.sync({ force: true }); //CAMBIAR TEMPORALMENTE
       console.log('✅ Database synchronized');
     }
     

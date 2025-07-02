@@ -28,7 +28,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: app_backend
     restart: unless-stopped
     env_file:
@@ -105,10 +105,7 @@ services:
 
   # pgAdmin 4 para administración de PostgreSQL
   pgadmin:
-    build:
-      context: ./pgadmin
-      dockerfile: Dockerfile
-      image: dpage/pgadmin4
+    image: dpage/pgadmin4
     container_name: app_pgadmin
     restart: unless-stopped
     environment:
