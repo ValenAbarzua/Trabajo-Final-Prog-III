@@ -37,3 +37,13 @@ module.exports= (sequelize, DataTypes) => {
 
 return Libro;
 }
+
+//Ejemplo de libro
+//{
+//  "titulo": "El senior de los anillos",
+//  "autor": "J.R.R. Tolkien",
+//  "anio": "1960",
+//  "estadoLectura": "leyendo",
+//  "calificacion": 5,
+//  "generoId": 3
+//}

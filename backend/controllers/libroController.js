@@ -1,15 +1,16 @@
 const {Libro, Genero}= require('../models')
+const LibroModel = require('./../models/sequelize/libros.model.js')
 const libroController = {
     async obtenerTodos(req,res){
         try {
-            const libros = await Libro.findAll()
+            const libros = await LibroModel.obtenerTodos();
             res.json(libros);
         } catch (error) {
             res.status(500).json({error: 'Error al obtener los libros'});
             
         }
     },
-
+   //TODO: hacer el model de crear
     async crear(req,res){
         try {
             console.log("BODY RECIBIDO:", req.body); // PARA VER EL ERROR

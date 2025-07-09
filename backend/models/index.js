@@ -22,8 +22,8 @@ const sequelize = new Sequelize(
 );
 
 //Importamos los modelos
-const Genero = require('./genero')(sequelize, Sequelize.DataTypes);
-const Libro = require('./libro')(sequelize, Sequelize.DataTypes);
+const Genero = require('./sequelize/entities/genero')(sequelize, Sequelize.DataTypes);
+const Libro = require('./sequelize/entities/libro')(sequelize, Sequelize.DataTypes);
 if (Genero.associate) Genero.associate({ Libro });
 if (Libro.associate) Libro.associate({ Genero });
 
