@@ -1,0 +1,13 @@
+.lista-libros {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.libro {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: darksalmon;
+
+}

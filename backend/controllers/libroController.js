@@ -2,7 +2,12 @@ const {Libro, Genero}= require('../models')
 const libroController = {
     async obtenerTodos(req,res){
         try {
-            const libros = await Libro.findAll()
+            const libros = await Libro.findAll({
+                include: {
+                    model: Genero,
+                    as: 'genero'
+                }
+            });
             res.json(libros);
         } catch (error) {
             res.status(500).json({error: 'Error al obtener los libros'});
