@@ -1,13 +1,70 @@
-.lista-libros {
-  padding: 2rem;
-  font-family: sans-serif;
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffeef8;
+    margin: 0;
+    padding: 0;
 }
 
-.libro {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: darksalmon;
+.contenedor-principal {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff0f6;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 182, 193, 0.3);
+}
 
+h1, h2{
+    text-align: center;
+    color: #d63384;
+
+}
+
+.libro{
+    background-color: #fff;
+    border: 1px solid #f8c8dc;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.libro strong{
+    color: #c2185b;
+}
+
+button{
+    background-color: #f48fb1;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover{
+    background-color: #ec407a;
+}
+
+form{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+    margin-top: 20px;
+}
+
+input, select {
+    padding: 8px;
+    border: 1px solid #f8c8dc;
+    border-radius: 5px;
+    background-color: #fff0f6;
+}
+
+.botones-lista-libros{
+    margin-top: 10px;
+    display:flex;
+    justify-content: center;
+    gap: 12px;
 }

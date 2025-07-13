@@ -15,6 +15,24 @@ const Home = () => {
         }
     };
 
+    const eliminarLibro = async (id) => {
+        try{
+            const response = await fetch(`http://localhost:3001/api/libros/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert("Libro eliminado correctamente!");
+                setLibros(libros.filter((libro) => libro.id !== id)) //Actualiza la lista
+            } else {
+                alert("Error al eliminar el libro!");
+            }
+        } catch (error){
+            console.error("Error al eliminar el libro!");
+            alert("Ocurrio un problema al eliminar el libro!");
+        }
+    };
+
     useEffect( () => {
         obtenerLibros();
     }, []);
@@ -23,15 +41,17 @@ const Home = () => {
         <div className='contenedor-principal'>
             <h1> Mi biblioteca personal </h1>
             <ListaLibros 
-            libros={libros}
-            setLibroEditado={setLibroEditado}
-            onEliminar={obtenerLibros} />
+                libros={libros}
+                setLibroEditado={setLibroEditado}
+                onEliminar={eliminarLibro} 
+            />
             <FormularioLibros 
-            libroEditado = {libroEditado}
-            onGuardar={() => {
-                setLibroEditado(null);
-                obtenerLibros();
-            }} />
+                libroEditado = {libroEditado}
+                onGuardar={() => {
+                    setLibroEditado(null);
+                    obtenerLibros();
+                }}  
+            />
         </div>
     );
 };

@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import '../../styles/libros.css'
+import '../../styles/formulario.css'
 
 const FormularioLibros = ({libroEditado, onGuardar}) => {
         const [titulo, setTitulo] = useState('');
@@ -72,7 +74,7 @@ const FormularioLibros = ({libroEditado, onGuardar}) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className= "formulario-libro">
             <h2> Agregar libro </h2>
             <input type = 'text' placeholder= "Titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} required/>
             <input type = 'text' placeholder= "Autor" value={autor} onChange={(e) => setAutor(e.target.value)} required/>

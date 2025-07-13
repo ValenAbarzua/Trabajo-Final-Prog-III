@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../../styles/libros.css';
+import '../../styles/formulario.css';
 
-const ListaLibros = ({libros, setLibroEditado}) => {
+const ListaLibros = ({libros, setLibroEditado, onEliminar}) => {
 
+/*
     const eliminarLibro = async (id) => {
         try{
             const response = await fetch(`http://localhost:3001/api/libros/${id}`, {
@@ -17,7 +19,7 @@ const ListaLibros = ({libros, setLibroEditado}) => {
         } catch (error){
             console.error('Ocurrio un error!', error)
         }
-    }
+    } */
 
     return (
         <div className='lista-libros'>
@@ -32,8 +34,11 @@ const ListaLibros = ({libros, setLibroEditado}) => {
                         <br /> Calificacion: {libro.calificacion}/5
                         <br /> Estado de lectura: {libro.estadoLectura}
 
-                        <button onClick={() => setLibroEditado(libro)}> Editar </button>
-                        <button onClick={() => eliminarLibro(libro.id)}> Eliminar libro </button>
+                        <div className='botones-lista-libros'>
+                            <button onClick={() => setLibroEditado(libro)}> Editar libro </button>
+                            <button onClick={() => onEliminar(libro.id)}> Eliminar libro </button>
+                        </div>
+                   
                     </div>
                 ))
             )}
