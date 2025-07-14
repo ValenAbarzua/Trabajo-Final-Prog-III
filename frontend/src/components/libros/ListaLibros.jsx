@@ -2,11 +2,17 @@ import { useEffect, useState } from 'react';
 import '../../styles/libros.css';
 import '../../styles/formulario.css';
 
-const ListaLibros = ({libros, setLibroEditado, onEliminar, generoSeleccionado}) => {
+const ListaLibros = ({libros, setLibroEditado, onEliminar, generoSeleccionado, estadoLecturaSeleccionado}) => {
 
-    const librosFiltrados = generoSeleccionado === 0
+ /*   const librosFiltrados = generoSeleccionado === 0
         ? libros
-        : libros.filter((libro) => libro.genero?.id === generoSeleccionado);
+        : libros.filter((libro) => libro.genero?.id === generoSeleccionado); */
+    
+    const librosFiltrados = libros.filter((libro) => {
+        const coincideGenero = generoSeleccionado === '' || libro.genero?.id === parseInt(generoSeleccionado);
+        const coincideEstado = estadoLecturaSeleccionado === '' || libro.estadoLectura === estadoLecturaSeleccionado;
+        return coincideGenero && coincideEstado;
+    });
 
 
 

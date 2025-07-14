@@ -7,6 +7,7 @@ const Home = () => {
     const [generos, setGeneros] = useState([]);
     const [generoSeleccionado, setGeneroSeleccionado] = useState('');
     const [libroEditado, setLibroEditado] = useState(null);
+    const [estadoLecturaSeleccionado, setEstadoLecturaSeleccionado] = useState('')
     const obtenerLibros = async() => {
         try {
             const response = await fetch('http://localhost:3001/api/libros');
@@ -55,17 +56,24 @@ const Home = () => {
     return (
         <div className='contenedor-principal'>
             <h1> Mi biblioteca personal </h1>
-            <select value={generoSeleccionado} onChange={(e) => setGeneroSeleccionado(parseInt(e.target.value))}>
-                <option value={0}> Todos los generos </option>
+            <select value={generoSeleccionado} onChange={(e) => setGeneroSeleccionado(e.target.value)}>
+                <option value=''> Todos los generos </option>
                 {generos.map((genero) => (
                     <option key={genero.id} value={genero.id}> {genero.nombre} </option>
                 ))}
+            </select>
+            <select value={estadoLecturaSeleccionado} onChange={(e) => setEstadoLecturaSeleccionado(e.target.value)}>
+                <option value=''> Todos los estados de lectura </option>
+                <option value='por leer'> Por leer </option>
+                <option value='leyendo'> Leyendo </option>
+                <option value='leido'> Leido </option>
             </select>
             <ListaLibros 
                 libros={libros}
                 setLibroEditado={setLibroEditado}
                 onEliminar={eliminarLibro} 
                 generoSeleccionado={generoSeleccionado}
+                estadoLecturaSeleccionado={estadoLecturaSeleccionado}
             />
             <FormularioLibros 
                 libroEditado = {libroEditado}
