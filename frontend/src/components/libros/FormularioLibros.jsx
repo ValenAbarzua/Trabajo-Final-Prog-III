@@ -2,21 +2,21 @@ import React, {useState, useEffect} from 'react';
 import '../../styles/libros.css'
 import '../../styles/formulario.css'
 
-const FormularioLibros = ({libroEditado, onGuardar}) => {
+const FormularioLibros = ({libroEditado, onGuardar, generos =[]}) => {
         const [titulo, setTitulo] = useState('');
         const [autor, setAutor] = useState('');
         const [anio, setAnio] = useState('');
         const [estadoLectura, setEstadoLectura] = useState ('');
         const [calificacion, setCalificacion] = useState ('');
         const [generoId, setGeneroId] = useState('');
-        const [generos, setGeneros] = useState ([]) 
+    /*    const [generos, setGeneros] = useState ([]) 
 
     useEffect(() => {
         fetch('http://localhost:3001/api/generos')
         .then((res) => res.json())
         .then((data) => setGeneros(data))
         .catch((error) => console.error("Error al cargar generos", error))
-    }, []);
+    }, []); */
 
     useEffect(() => {
         if (libroEditado) {

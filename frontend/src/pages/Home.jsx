@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ListaLibros from '../components/libros/ListaLibros';
 import FormularioLibros from '../components/libros/FormularioLibros';
+import FormularioGenero from '../components/generos/FormularioGenero';
 
 const Home = () => {
     const [libros, setLibros] = useState([]);
@@ -47,7 +48,7 @@ const Home = () => {
                 const data = await response.json();
                 setGeneros(data);
             } catch (error) {
-                console.error('Error al obtener los generos')
+                console.error('Error al obtener los generos', error)
             }
         };
         obtenerGeneros();
@@ -77,10 +78,18 @@ const Home = () => {
             />
             <FormularioLibros 
                 libroEditado = {libroEditado}
+                generos={generos}
                 onGuardar={() => {
                     setLibroEditado(null);
                     obtenerLibros();
                 }}  
+            />
+            <FormularioGenero onGeneroCreado={() => {
+                fetch('http://localhost:3001/api/generos') //Para que se actualize la lista de generos luego
+                .then((res) => res.json())                 // de crear uno
+                .then((data) => setGeneros(data))
+                .catch((error) => console.error('Error al actualizar los generos', error))
+            }}
             />
         </div>
     );
