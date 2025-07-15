@@ -9,14 +9,6 @@ const FormularioLibros = ({libroEditado, onGuardar, generos =[]}) => {
         const [estadoLectura, setEstadoLectura] = useState ('');
         const [calificacion, setCalificacion] = useState ('');
         const [generoId, setGeneroId] = useState('');
-    /*    const [generos, setGeneros] = useState ([]) 
-
-    useEffect(() => {
-        fetch('http://localhost:3001/api/generos')
-        .then((res) => res.json())
-        .then((data) => setGeneros(data))
-        .catch((error) => console.error("Error al cargar generos", error))
-    }, []); */
 
     useEffect(() => {
         if (libroEditado) {

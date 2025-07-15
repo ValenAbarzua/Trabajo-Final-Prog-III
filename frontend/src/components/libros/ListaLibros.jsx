@@ -3,10 +3,6 @@ import '../../styles/libros.css';
 import '../../styles/formulario.css';
 
 const ListaLibros = ({libros, setLibroEditado, onEliminar, generoSeleccionado, estadoLecturaSeleccionado}) => {
-
- /*   const librosFiltrados = generoSeleccionado === 0
-        ? libros
-        : libros.filter((libro) => libro.genero?.id === generoSeleccionado); */
     
     const librosFiltrados = libros.filter((libro) => {
         const coincideGenero = generoSeleccionado === '' || libro.genero?.id === parseInt(generoSeleccionado);
