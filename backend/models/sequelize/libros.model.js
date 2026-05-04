@@ -1,4 +1,4 @@
-const {Libro, Genero}= require('../models')
+const {Libro, Genero}= require('..')
 class LibroModel {
     obtenerTodos(){
         const libros =  Libro.findAll({
