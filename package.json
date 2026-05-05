@@ -1,0 +1,24 @@
+{
+  "name": "proyecto-final-prog3",
+  "version": "1.0.0",
+  "description": "```\r ┌─────────────┐    ┌─────────────┐    ┌─────────────┐\r │   Nginx     │    │   React     │    │   Express   │\r │  (Proxy)    │◄──►│ (Frontend)  │◄──►│  (Backend)  │\r │   :80       │    │   :3000     │    │   :3001     │\r └─────────────┘    └─────────────┘    └─────────────┘\r                                               │\r                    ┌─────────────┐    ┌─────────────┐\r                    │    Redis    │    │ PostgreSQL  │\r                    │  (Cache)    │    │    (DB)     │\r                    │   :6379     │    │   :5432     │\r                    └─────────────┘    └─────────────┘\r ```",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValenAbarzua/Trabajo-Final-Prog-III.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ValenAbarzua/Trabajo-Final-Prog-III/issues"
+  },
+  "homepage": "https://github.com/ValenAbarzua/Trabajo-Final-Prog-III#readme",
+  "devDependencies": {
+    "vite": "^8.0.7"
+  }
+}
