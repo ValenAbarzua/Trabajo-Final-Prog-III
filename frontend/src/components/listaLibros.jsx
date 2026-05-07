@@ -12,6 +12,7 @@ const ListaLibros = () => {
         estadoLectura: 'por leer',
         generoId: ''
     });
+    const [generos, setGeneros] = useState([]);
 
     const apiBase = process.env.REACT_APP_API_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
@@ -27,35 +28,76 @@ const ListaLibros = () => {
         }
     }, [apiBase]);
 
+    const obtenerGeneros = useCallback(async () => {
+        try {
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`);
+            const data = await response.json();
+            setGeneros(data || []);
+        } catch (error) {
+            console.error('Error al obtener los géneros', error);
+            setGeneros([]);
+        }
+    }, [apiBase]);
+
     useEffect(() => {
         obtenerLibros();
-    }, [obtenerLibros]);
+        obtenerGeneros();
+    }, [obtenerLibros, obtenerGeneros]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validar que todos los campos requeridos estén presentes
+        if (!formData.titulo || !formData.autor || !formData.anio || !formData.estadoLectura) {
+            alert('Por favor completa todos los campos requeridos');
+            return;
+        }
+
+        // Preparar los datos para enviar
+        const dataToSend = {
+            titulo: formData.titulo.trim(),
+            autor: formData.autor.trim(),
+            anio: String(formData.anio).trim(), // Asegurar que sea string
+            estadoLectura: formData.estadoLectura,
+            generoId: formData.generoId ? parseInt(formData.generoId) : null
+        };
+
+        console.log('Enviando datos:', dataToSend); // Debug
+
         try {
             const url = editando
                 ? `${apiBase.replace(/\/$/, '')}/libros/${editando.id}`
                 : `${apiBase.replace(/\/$/, '')}/libros`;
 
             const method = editando ? 'PUT' : 'POST';
+            console.log('URL:', url, 'Method:', method); // Debug
 
             const response = await fetch(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(dataToSend),
             });
 
+            console.log('Response status:', response.status); // Debug
+
             if (response.ok) {
+                const result = await response.json();
+                console.log('Libro guardado:', result); // Debug
                 await obtenerLibros();
                 setMostrarFormulario(false);
                 setEditando(null);
-                setFormData({ titulo: '', autor: '', anio: '', generoId: '' });
+                setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '' });
+                alert(editando ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
+            } else {
+                const error = await response.text();
+                console.error('Error del servidor:', error);
+                alert('Error al guardar el libro: ' + error);
             }
         } catch (error) {
             console.error('Error al guardar el libro', error);
+            alert('Error de conexión: ' + error.message);
         }
     };
 
@@ -66,7 +108,7 @@ const ListaLibros = () => {
             autor: libro.autor,
             anio: libro.anio,
             estadoLectura: libro.estadoLectura,
-            generoId: libro.generoId || ''
+            generoId: libro.generoId || libro.genero?.id || ''
         });
         setMostrarFormulario(true);
     };
@@ -166,6 +208,38 @@ const ListaLibros = () => {
                                 <option value="leyendo">Leyendo</option>
                                 <option value="leido">Leído</option>
                             </select>
+                        </div>
+                        <div style={{ marginBottom: '20px' }}>
+                            <label>Género:</label>
+                            {generos.length > 0 ? (
+                                <select
+                                    value={formData.generoId}
+                                    onChange={(e) => setFormData({...formData, generoId: e.target.value})}
+                                    required
+                                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                                >
+                                    <option value="">Selecciona un género</option>
+                                    {generos.map((genero) => (
+                                        <option key={genero.id} value={genero.id}>
+                                            {genero.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type="number"
+                                    value={formData.generoId}
+                                    onChange={(e) => setFormData({...formData, generoId: e.target.value})}
+                                    required
+                                    placeholder="Ingresa ID de género"
+                                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                                />
+                            )}
+                            {generos.length === 0 && (
+                                <p style={{ fontSize: '0.9rem', color: '#555', marginTop: '8px' }}>
+                                    No hay géneros cargados en la API. Si no hay opciones, crea un género primero o ingresa el ID manualmente.
+                                </p>
+                            )}
                         </div>
                         <div>
                             <button
