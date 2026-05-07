@@ -5,7 +5,7 @@ const ListaLibros = () => {
     const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
-         fetch('http://localhost:3001/api/libros')
+         fetch('https://trabajo-final-prog-iii.onrender.com/api/libros')
          .then((res)=> res.json())
          .then((data) => {
             setLibros(data);
