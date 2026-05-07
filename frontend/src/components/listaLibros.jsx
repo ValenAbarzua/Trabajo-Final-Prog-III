@@ -118,7 +118,7 @@ const ListaLibros = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('¿Estás seguro de que quieres eliminar este libro?')) {
+        if (window.confirm('Estas seguro de que quieres eliminar este libro?')) {
             try {
                 const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros/${id}`, {
                     method: 'DELETE',
@@ -364,9 +364,9 @@ const ListaLibros = () => {
             )}
 
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f6f9ff' }}>
-                <h3>Géneros</h3>
+                <h3>Generos</h3>
                 <p style={{ marginBottom: '15px', color: '#555' }}>
-                    Aquí puedes ver los géneros existentes y crear nuevos géneros para usar en los libros.
+                    Generos existentes y crear nuevos generos para usar en tus libros!
                 </p>
 
                 <form onSubmit={handleNuevoGeneroSubmit} style={{ marginBottom: '20px' }}>
@@ -375,7 +375,7 @@ const ListaLibros = () => {
                             type="text"
                             value={nuevoGenero}
                             onChange={(e) => setNuevoGenero(e.target.value)}
-                            placeholder="Nombre del género"
+                            placeholder="Nombre del genero"
                             style={{ flex: 1, padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
                             required
                         />
@@ -390,15 +390,15 @@ const ListaLibros = () => {
                                 cursor: 'pointer'
                             }}
                         >
-                            Crear Género
+                            Crear genero
                         </button>
                     </div>
                 </form>
 
                 {cargandoGeneros ? (
-                    <p>Cargando géneros...</p>
+                    <p>Cargando generos...</p>
                 ) : generos.length === 0 ? (
-                    <p>No hay géneros creados aún.</p>
+                    <p>No hay generos creados.</p>
                 ) : (
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         {generos.map((genero) => (
