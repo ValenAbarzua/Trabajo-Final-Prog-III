@@ -5,19 +5,19 @@ const ListaLibros = () => {
     const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
-         fetch('https://trabajo-final-prog-iii.onrender.com/api/libros')
+        const apiBase = process.env.REACT_APP_API_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
+        const apiEndpoint = `${apiBase.replace(/\/$/, '')}/libros`;
+
+        fetch(apiEndpoint)
          .then((res)=> res.json())
          .then((data) => {
             setLibros(data);
-            setCargando(false)
+            setCargando(false);
          })
-
         .catch((error) => {
             console.error('Error al obtener los libros', error);
             setCargando(false);
-
-         })
-
+         });
     }, []);
 
     if (cargando) return <p> Cargando libros...</p>;
