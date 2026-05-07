@@ -13,6 +13,8 @@ const ListaLibros = () => {
         generoId: ''
     });
     const [generos, setGeneros] = useState([]);
+    const [nuevoGenero, setNuevoGenero] = useState('');
+    const [cargandoGeneros, setCargandoGeneros] = useState(true);
 
     const apiBase = process.env.REACT_APP_API_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
@@ -36,6 +38,8 @@ const ListaLibros = () => {
         } catch (error) {
             console.error('Error al obtener los géneros', error);
             setGeneros([]);
+        } finally {
+            setCargandoGeneros(false);
         }
     }, [apiBase]);
 
@@ -126,6 +130,38 @@ const ListaLibros = () => {
             } catch (error) {
                 console.error('Error al eliminar el libro', error);
             }
+        }
+    };
+
+    const handleNuevoGeneroSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!nuevoGenero.trim()) {
+            alert('Ingresa el nombre del genero');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nombre: nuevoGenero.trim() }),
+            });
+
+            if (response.ok) {
+                setNuevoGenero('');
+                await obtenerGeneros();
+                alert('Genero creado correctamente');
+            } else {
+                const errorText = await response.text();
+                console.error('Error al crear genero:', errorText);
+                alert('Error al crear genero: ' + errorText);
+            }
+        } catch (error) {
+            console.error('Error al crear género', error);
+            alert('Error de conexión al crear género');
         }
     };
 
@@ -326,6 +362,62 @@ const ListaLibros = () => {
                     ))}
                 </ul>
             )}
+
+            <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f6f9ff' }}>
+                <h3>Géneros</h3>
+                <p style={{ marginBottom: '15px', color: '#555' }}>
+                    Aquí puedes ver los géneros existentes y crear nuevos géneros para usar en los libros.
+                </p>
+
+                <form onSubmit={handleNuevoGeneroSubmit} style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input
+                            type="text"
+                            value={nuevoGenero}
+                            onChange={(e) => setNuevoGenero(e.target.value)}
+                            placeholder="Nombre del género"
+                            style={{ flex: 1, padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            required
+                        />
+                        <button
+                            type="submit"
+                            style={{
+                                backgroundColor: '#4CAF50',
+                                color: 'white',
+                                padding: '10px 20px',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Crear Género
+                        </button>
+                    </div>
+                </form>
+
+                {cargandoGeneros ? (
+                    <p>Cargando géneros...</p>
+                ) : generos.length === 0 ? (
+                    <p>No hay géneros creados aún.</p>
+                ) : (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {generos.map((genero) => (
+                            <li
+                                key={genero.id}
+                                style={{
+                                    border: '1px solid #ccc',
+                                    padding: '10px',
+                                    marginBottom: '10px',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#fff'
+                                }}
+                            >
+                                <strong>{genero.nombre}</strong> (ID: {genero.id})
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };
