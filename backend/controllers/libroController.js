@@ -64,5 +64,6 @@ const libroController = {
             res.status(500).json({ error: 'Error al eliminar el libro' });
         }
     }
+
 }
 module.exports = libroController;
