@@ -1,12 +1,14 @@
 const {Libro, Genero}= require('../models')
-const LibroModel = require('./../models/sequelize/libros.model.js')
 const libroController = {
     async obtenerTodos(req,res){
         try {
-            const libros = await LibroModel.obtenerTodos();
+            const libros = await Libro.findAll({
+              include: ['genero']
+            });
             res.json(libros);
         } catch (error) {
-            res.status(500).json({error: 'Error al obtener los libros'});
+            console.error("ERROR REAL: ", error);
+            res.status(500).json({error: error.message, detalle: error});
             
         }
     },
@@ -20,8 +22,12 @@ const libroController = {
             });
             res.status(201).json(libroCompleto);
         } catch (error) {
+            if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(400).json({ error: 'Este libro ya existe!' });
+            }
             console.error("Error en crear el libro",error);
             res.status(400).json({error: error.message});
+            
             
         }
     },

@@ -9,8 +9,18 @@ const dbConfig = config[env];
 
 let sequelize;
 
-if (dbConfig.use_env_variable) {
-  sequelize = new Sequelize(process.env[dbConfig.use_env_variable], dbConfig);
+if (process.env.DATABASE_URL) {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false
+  });
 } else {
   sequelize = new Sequelize(
     dbConfig.database,
@@ -26,8 +36,8 @@ const Libro = require('./sequelize/entities/libro')(sequelize, Sequelize.DataTyp
 if (Genero.associate) Genero.associate({ Libro });
 if (Libro.associate) Libro.associate({ Genero });
 
-Genero.hasMany(Libro, {foreignkey: 'generoId'});
-Libro.belongsTo(Genero, {foreignkey: 'generoId'});
+Genero.hasMany(Libro, {foreignKey: 'generoId'});
+Libro.belongsTo(Genero, {foreignKey: 'generoId'});
 
 module.exports = {
   sequelize,

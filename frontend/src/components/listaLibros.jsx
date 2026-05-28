@@ -8,6 +8,7 @@ const ListaLibros = () => {
          fetch('http://localhost:3001/api/libros')
          .then((res)=> res.json())
          .then((data) => {
+            console.log(data)
             setLibros(data);
             setCargando(false)
          })
