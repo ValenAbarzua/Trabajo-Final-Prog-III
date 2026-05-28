@@ -2,33 +2,32 @@ const {Libro, Genero}= require('../models')
 const libroController = {
     async obtenerTodos(req,res){
         try {
+            const pagina = parseInt(req.query.pagina) || 1;
+            const limite = parseInt(req.query.limite) || 5;
+            const offset = (pagina - 1) * limite;
             const libros = await Libro.findAll({
-              include: ['genero']
+              include: ['genero'],
+              limit: limite,
+              offset: offset
             });
             res.json(libros);
         } catch (error) {
-            console.error("ERROR REAL: ", error);
-            res.status(500).json({error: error.message, detalle: error});
+            res.status(500).json({error: 'Error al obtener los libros!'});
             
         }
     },
-   //TODO: hacer el model de crear
     async crear(req,res){
         try {
-            console.log("BODY RECIBIDO:", req.body); // PARA VER EL ERROR
             const nuevoLibro = await Libro.create(req.body)
             const libroCompleto = await Libro.findByPk(nuevoLibro.id, {
-                include: ['genero'] // alias definido en libro.js
+                include: ['genero'] 
             });
             res.status(201).json(libroCompleto);
         } catch (error) {
             if (error.name === 'SequelizeUniqueConstraintError') {
                 return res.status(400).json({ error: 'Este libro ya existe!' });
             }
-            console.error("Error en crear el libro",error);
-            res.status(400).json({error: error.message});
-            
-            
+            res.status(400).json({error: 'Error al crear el libro!'});
         }
     },
 
