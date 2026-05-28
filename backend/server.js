@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 
 // CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  }));
 
 // Middleware de parsing
 app.use(express.json({ limit: '10mb' }));
@@ -59,7 +62,7 @@ async function startServer() {
     console.log('✅ Database connection established successfully.');
     
     // En desarrollo, sincronizar modelos
-    await sequelize.sync({ force: true }); //CAMBIAR TEMPORALMENTE
+    await sequelize.sync(); //CAMBIAR TEMPORALMENTE
     console.log('✅ Database synchronized');
     
     
