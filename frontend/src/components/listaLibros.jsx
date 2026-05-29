@@ -16,7 +16,7 @@ const ListaLibros = () => {
     const [nuevoGenero, setNuevoGenero] = useState('');
     const [cargandoGeneros, setCargandoGeneros] = useState(true);
 
-    const apiBase = process.env.REACT_APP_API_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
+    const apiBase = process.env.REACT_APP_API_BASE_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
     const obtenerLibros = useCallback(async () => {
         try {
@@ -80,6 +80,7 @@ const ListaLibros = () => {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(dataToSend),
             });
@@ -122,6 +123,10 @@ const ListaLibros = () => {
             try {
                 const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros/${id}`, {
                     method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
                 });
 
                 if (response.ok) {
@@ -146,6 +151,7 @@ const ListaLibros = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify({ nombre: nuevoGenero.trim() }),
             });
@@ -171,6 +177,10 @@ const ListaLibros = () => {
         try {
             const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${id}`, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
             });
             if (response.ok) {
                 await obtenerGeneros();
@@ -191,7 +201,10 @@ const ListaLibros = () => {
         try{
             const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
                 body: JSON.stringify({ nombre: nuevoNombre.trim() })
             });
             if (response.ok) {
@@ -202,7 +215,25 @@ const ListaLibros = () => {
             console.error('Error al editar el genero', error);
             alert('Error de conexión al editar género');
         }
-    }
+    };
+
+    const handleLogin = async () => {
+        try{
+            const response = await fetch(
+                `${apiBase.replace(/\/$/, '')}/libros/login`, 
+                {
+                    method: 'POST',
+                }
+            );
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            alert('Token guardado correctamente!')
+            console.log (data.token);
+
+        } catch (error) {
+            console.error ('Error al obtener el token');
+        }
+    };
 
     const handleCancel = () => {
         setMostrarFormulario(false);
@@ -215,6 +246,21 @@ const ListaLibros = () => {
     return (
         <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
             <h2>Lista de libros</h2>
+            <button
+                onClick={handleLogin}
+                style={{
+                    backgroundColor: '#673ab7',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    marginBottom: '20px',
+                    marginRight: '10px'
+                }}
+                > 
+                Obtener Token 
+                </button>
 
             <button
                 onClick={() => setMostrarFormulario(true)}
@@ -493,5 +539,6 @@ const ListaLibros = () => {
         </div>
     );
 };
+
 
 export default ListaLibros;
