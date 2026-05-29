@@ -244,7 +244,13 @@ const ListaLibros = () => {
     if (cargando) return <p>Cargando libros...</p>;
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ 
+            padding: '20px', 
+            width: '100%', 
+            maxWidth: '900px',
+            margin: '0 auto',
+            boxSizing: 'border-box' 
+            }}>
             <h2>Lista de libros</h2>
             <button
                 onClick={handleLogin}
@@ -267,7 +273,8 @@ const ListaLibros = () => {
                 style={{
                     backgroundColor: '#4CAF50',
                     color: 'white',
-                    padding: '10px 20px',
+                    padding: '10px',
+                    minWidth: '120px',
                     border: 'none',
                     borderRadius: '4px',
                     cursor: 'pointer',
@@ -368,7 +375,8 @@ const ListaLibros = () => {
                                 style={{
                                     backgroundColor: '#2196F3',
                                     color: 'white',
-                                    padding: '10px 20px',
+                                    padding: '10px',
+                                    minWidth: '120px', 
                                     border: 'none',
                                     borderRadius: '4px',
                                     cursor: 'pointer',
@@ -383,7 +391,8 @@ const ListaLibros = () => {
                                 style={{
                                     backgroundColor: '#f44336',
                                     color: 'white',
-                                    padding: '10px 20px',
+                                    padding: '10px',
+                                    minWidth: '120px',
                                     border: 'none',
                                     borderRadius: '4px',
                                     cursor: 'pointer'
@@ -406,11 +415,19 @@ const ListaLibros = () => {
                             padding: '15px',
                             marginBottom: '10px',
                             borderRadius: '4px',
-                            backgroundColor: '#fff'
+                            backgroundColor: '#fff',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                         }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
-                                    <strong>{libro.titulo}</strong> - {libro.autor} ({libro.anio})<br />
+                            <div style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                gap: '10px'
+                                }}>
+                                <div style={{ marginBottom: '8px'}}>
+                                    <strong>{libro.titulo}</strong> <br />
+                                    {libro.autor} ({libro.anio}) <br />
                                     Estado: {libro.estadoLectura} | Género: {libro.genero?.nombre || 'Sin género'}
                                 </div>
                                 <div>
@@ -419,7 +436,8 @@ const ListaLibros = () => {
                                         style={{
                                             backgroundColor: '#ff9800',
                                             color: 'white',
-                                            padding: '5px 10px',
+                                            padding: '5px',
+                                            minWidth: '100px',
                                             border: 'none',
                                             borderRadius: '4px',
                                             cursor: 'pointer',
@@ -433,7 +451,8 @@ const ListaLibros = () => {
                                         style={{
                                             backgroundColor: '#f44336',
                                             color: 'white',
-                                            padding: '5px 10px',
+                                            padding: '5px',
+                                            minWidth: '100px',
                                             border: 'none',
                                             borderRadius: '4px',
                                             cursor: 'pointer'
@@ -455,7 +474,7 @@ const ListaLibros = () => {
                 </p>
 
                 <form onSubmit={handleNuevoGeneroSubmit} style={{ marginBottom: '20px' }}>
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <input
                             type="text"
                             value={nuevoGenero}
@@ -469,7 +488,8 @@ const ListaLibros = () => {
                             style={{
                                 backgroundColor: '#4CAF50',
                                 color: 'white',
-                                padding: '10px 20px',
+                                padding: '10px',
+                                minWidth: '120px',
                                 border: 'none',
                                 borderRadius: '4px',
                                 cursor: 'pointer'
@@ -494,10 +514,17 @@ const ListaLibros = () => {
                                     padding: '10px',
                                     marginBottom: '10px',
                                     borderRadius: '4px',
-                                    backgroundColor: '#fff'
+                                    backgroundColor: '#fff',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                                 }}
                             >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div style={{
+                                     display: 'flex', 
+                                     justifyContent: 'space-between', 
+                                     alignItems: 'center',
+                                     flexWrap: 'wrap',
+                                     gap: '10px'
+                                     }}>
                                     <div> 
                                         <strong>{genero.nombre}</strong>
                                     </div>
@@ -507,7 +534,8 @@ const ListaLibros = () => {
                                             style={{
                                                 backgroundColor: '#ff9800',
                                                 color: 'white',
-                                                padding: '5px 10px',
+                                                padding: '5px',
+                                                minWidth: '100px',
                                                 border: 'none',
                                                 borderRadius: '4px',
                                                 cursor: 'pointer',
@@ -521,7 +549,8 @@ const ListaLibros = () => {
                                             style={{
                                                 backgroundColor: '#f44336',
                                                 color: 'white',
-                                                padding: '5px 10px',
+                                                padding: '5px',
+                                                minWidth: '100px',
                                                 border: 'none',
                                                 borderRadius: '4px',
                                                 cursor: 'pointer'
