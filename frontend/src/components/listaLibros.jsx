@@ -165,6 +165,45 @@ const ListaLibros = () => {
         }
     };
 
+    const handleEliminarGenero = async (id) => {
+        if (!window.confirm('Estas seguro de que quieres eliminar este genero?')) return;
+
+        try {
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                await obtenerGeneros();
+                alert('Genero eliminado correctamente');
+            }
+        } catch (error) {
+            console.error('Error al eliminar el genero')
+        }
+    };
+
+    const handleEditarGenero = async (genero) => {
+        const nuevoNombre = prompt(
+            'Nuevo nombre del genero: ',
+            genero.nombre
+        );
+        if (!nuevoNombre) return;
+
+        try{
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nuevoNombre.trim() })
+            });
+            if (response.ok) {
+                await obtenerGeneros();
+                alert('Genero actualizado correctamente');
+            }
+        } catch (error) {
+            console.error('Error al editar el genero', error);
+            alert('Error de conexión al editar género');
+        }
+    }
+
     const handleCancel = () => {
         setMostrarFormulario(false);
         setEditando(null);
@@ -412,7 +451,40 @@ const ListaLibros = () => {
                                     backgroundColor: '#fff'
                                 }}
                             >
-                                <strong>{genero.nombre}</strong> (ID: {genero.id})
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div> 
+                                        <strong>{genero.nombre}</strong>
+                                    </div>
+                                    <div>
+                                        <button
+                                            onClick={() => handleEditarGenero(genero)}
+                                            style={{
+                                                backgroundColor: '#ff9800',
+                                                color: 'white',
+                                                padding: '5px 10px',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                cursor: 'pointer',
+                                                marginRight: '5px'
+                                            }}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => handleEliminarGenero(genero.id)}
+                                            style={{
+                                                backgroundColor: '#f44336',
+                                                color: 'white',
+                                                padding: '5px 10px',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </div>
                             </li>
                         ))}
                     </ul>
