@@ -131,6 +131,10 @@ const ListaLibros = () => {
 
                 if (response.ok) {
                     await obtenerLibros();
+                    alert('Libro eliminado correctamente')
+                }else {
+                    const error = await response.json();
+                    alert(error.error)
                 }
             } catch (error) {
                 console.error('Error al eliminar el libro', error);
@@ -185,6 +189,9 @@ const ListaLibros = () => {
             if (response.ok) {
                 await obtenerGeneros();
                 alert('Genero eliminado correctamente');
+            } else {
+                const error = await response.json();
+                alert(error.error);
             }
         } catch (error) {
             console.error('Error al eliminar el genero')
@@ -197,7 +204,6 @@ const ListaLibros = () => {
             genero.nombre
         );
         if (!nuevoNombre) return;
-
         try{
             const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
                 method: 'PUT',
@@ -210,6 +216,10 @@ const ListaLibros = () => {
             if (response.ok) {
                 await obtenerGeneros();
                 alert('Genero actualizado correctamente');
+            } else{
+                const error = await response.json();
+                console.log(error);
+                alert(error.error);
             }
         } catch (error) {
             console.error('Error al editar el genero', error);
