@@ -96,9 +96,8 @@ const ListaLibros = () => {
                 setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '' });
                 alert(editando ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
             } else {
-                const error = await response.text();
-                console.error('Error del servidor:', error);
-                alert('Error al guardar el libro: ' + error);
+                const error = await response.json();
+                alert('Error al guardar el libro: ' + error.error);
             }
         } catch (error) {
             console.error('Error al guardar el libro', error);
@@ -165,9 +164,8 @@ const ListaLibros = () => {
                 await obtenerGeneros();
                 alert('Genero creado correctamente');
             } else {
-                const errorText = await response.text();
-                console.error('Error al crear genero:', errorText);
-                alert('Error al crear genero: ' + errorText);
+                const error = await response.json();
+                alert('Error al crear genero: ' + error.error);
             }
         } catch (error) {
             console.error('Error al crear género', error);
@@ -218,7 +216,6 @@ const ListaLibros = () => {
                 alert('Genero actualizado correctamente');
             } else{
                 const error = await response.json();
-                console.log(error);
                 alert(error.error);
             }
         } catch (error) {
