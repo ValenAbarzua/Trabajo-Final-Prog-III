@@ -5,6 +5,8 @@ const ListaLibros = () => {
     const [cargando, setCargando] = useState(true);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [editando, setEditando] = useState(null);
+    const [pagina, setPagina] = useState(1);
+    const [totalPaginas, setTotalPaginas]= useState(1);
     const [formData, setFormData] = useState({
         titulo: '',
         autor: '',
@@ -20,15 +22,17 @@ const ListaLibros = () => {
 
     const obtenerLibros = useCallback(async () => {
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros`);
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`);
             const data = await response.json();
-            setLibros(data);
+            console.log("DATA COMPLETA", data);
+            setLibros(data.libros);
+            setTotalPaginas(data.totalPaginas);
         } catch (error) {
             console.error('Error al obtener los libros', error);
         } finally {
             setCargando(false);
         }
-    }, [apiBase]);
+    }, [apiBase, pagina]);
 
     const obtenerGeneros = useCallback(async () => {
         try {
@@ -250,6 +254,8 @@ const ListaLibros = () => {
 
     if (cargando) return <p>Cargando libros...</p>;
 
+    console.log("STATE libros:", libros);
+    console.log("STATE totalPaginas:", totalPaginas);
     return (
         <div style={{ 
             padding: '20px', 
@@ -473,6 +479,30 @@ const ListaLibros = () => {
                     ))}
                 </ul>
             )}
+            <div
+                style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '10px',
+                marginTop: '20px'
+            }}
+            >
+            <button
+            onClick={() => setPagina((prev) => Math.max(prev - 1, 1))}
+            disabled={pagina === 1}
+            >
+            Anterior
+            </button>
+
+            <span>Página {pagina}</span>
+
+            <button
+                onClick={() => setPagina((prev) => prev + 1)}
+                disabled= {pagina >= totalPaginas}
+            >
+            Siguiente
+            </button>
+            </div>
 
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f6f9ff' }}>
                 <h3>Generos</h3>
@@ -571,8 +601,9 @@ const ListaLibros = () => {
                         ))}
                     </ul>
                 )}
-            </div>
+                
         </div>
+    </div>
     );
 };
 

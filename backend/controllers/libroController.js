@@ -5,12 +5,17 @@ const libroController = {
             const pagina = parseInt(req.query.pagina) || 1;
             const limite = parseInt(req.query.limite) || 5;
             const offset = (pagina - 1) * limite;
-            const libros = await Libro.findAll({
+            const { count, rows } = await Libro.findAndCountAll({
               include: ['genero'],
               limit: limite,
               offset: offset
             });
-            res.json(libros);
+            res.json({
+                total: count,
+                pagina,
+                totalPaginas: Math.ceil(count / limite),
+                libros: rows
+            });
         } catch (error) {
             res.status(500).json({error: 'Error al obtener los libros!'});
             
