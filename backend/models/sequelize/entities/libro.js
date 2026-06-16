@@ -24,6 +24,10 @@ module.exports= (sequelize, DataTypes) => {
                 max: 5,
             },
         },
+        usuarioId: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        }
     })
 
     Libro.associate = function(models) {
@@ -34,7 +38,13 @@ module.exports= (sequelize, DataTypes) => {
             },
             as: 'genero',
         })
+
+        Libro.belongsTo(models.Usuario, { 
+        foreignKey: "usuarioId",
+        as: "usuario"
+    })
     }
+
 
 return Libro;
 }

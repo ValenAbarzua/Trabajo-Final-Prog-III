@@ -25,8 +25,8 @@ const ListaLibros = () => {
             const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`);
             const data = await response.json();
             console.log("DATA COMPLETA", data);
-            setLibros(data.libros);
-            setTotalPaginas(data.totalPaginas);
+            setLibros(data.libros || []);
+            setTotalPaginas(data.totalPaginas || 0);
         } catch (error) {
             console.error('Error al obtener los libros', error);
         } finally {

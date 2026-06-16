@@ -33,15 +33,27 @@ if (process.env.DATABASE_URL) {
 //Importamos los modelos
 const Genero = require('./sequelize/entities/genero')(sequelize, Sequelize.DataTypes);
 const Libro = require('./sequelize/entities/libro')(sequelize, Sequelize.DataTypes);
-if (Genero.associate) Genero.associate({ Libro });
-if (Libro.associate) Libro.associate({ Genero });
+const Usuario = require("./sequelize/entities/usuario")(sequelize, Sequelize.DataTypes);
+
+const models = {
+  Genero,
+  Libro,
+  Usuario
+};
+
+if (Genero.associate) Genero.associate(models);
+if (Libro.associate) Libro.associate(models);
+if (Usuario.associate) Usuario.associate(models)
 
 Genero.hasMany(Libro, {foreignKey: 'generoId'});
 Libro.belongsTo(Genero, {foreignKey: 'generoId'});
+
+
 
 module.exports = {
   sequelize,
   Sequelize,
   Genero,
-  Libro
+  Libro,
+  Usuario
 };
