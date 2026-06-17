@@ -22,9 +22,13 @@ const ListaLibros = () => {
 
     const obtenerLibros = useCallback(async () => {
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`);
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
             const data = await response.json();
-            console.log("DATA COMPLETA", data);
             setLibros(data.libros || []);
             setTotalPaginas(data.totalPaginas || 0);
         } catch (error) {
@@ -228,24 +232,6 @@ const ListaLibros = () => {
         }
     };
 
-    const handleLogin = async () => {
-        try{
-            const response = await fetch(
-                `${apiBase.replace(/\/$/, '')}/libros/login`, 
-                {
-                    method: 'POST',
-                }
-            );
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            alert('Token guardado correctamente!')
-            console.log (data.token);
-
-        } catch (error) {
-            console.error ('Error al obtener el token');
-        }
-    };
-
     const handleCancel = () => {
         setMostrarFormulario(false);
         setEditando(null);
@@ -254,8 +240,6 @@ const ListaLibros = () => {
 
     if (cargando) return <p>Cargando libros...</p>;
 
-    console.log("STATE libros:", libros);
-    console.log("STATE totalPaginas:", totalPaginas);
     return (
         <div style={{ 
             padding: '20px', 
@@ -265,22 +249,6 @@ const ListaLibros = () => {
             boxSizing: 'border-box' 
             }}>
             <h2>Lista de libros</h2>
-            <button
-                onClick={handleLogin}
-                style={{
-                    backgroundColor: '#673ab7',
-                    color: 'white',
-                    padding: '10px 20px',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    marginBottom: '20px',
-                    marginRight: '10px'
-                }}
-                > 
-                Obtener Token 
-                </button>
-
             <button
                 onClick={() => setMostrarFormulario(true)}
                 style={{

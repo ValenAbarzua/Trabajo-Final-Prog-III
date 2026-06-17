@@ -1,3 +1,4 @@
+const { ResultWithContextImpl } = require('express-validator/lib/chain');
 const {Libro, Genero}= require('../models')
 const libroController = {
     async obtenerTodos(req,res){
@@ -6,6 +7,7 @@ const libroController = {
             const limite = parseInt(req.query.limite) || 5;
             const offset = (pagina - 1) * limite;
             const { count, rows } = await Libro.findAndCountAll({
+                where: { usuarioId: req.usuario.id},
               include: ['genero'],
               limit: limite,
               offset: offset
@@ -17,13 +19,17 @@ const libroController = {
                 libros: rows
             });
         } catch (error) {
+            console.error(error);
             res.status(500).json({error: 'Error al obtener los libros!'});
             
         }
     },
     async crear(req,res){
         try {
-            const nuevoLibro = await Libro.create(req.body)
+            const nuevoLibro = await Libro.create({
+                ...req.body,
+                usuarioId: req.usuario.id
+            })
             const libroCompleto = await Libro.findByPk(nuevoLibro.id, {
                 include: ['genero'] 
             });
@@ -32,13 +38,20 @@ const libroController = {
             if (error.name === 'SequelizeUniqueConstraintError') {
                 return res.status(400).json({ error: 'Este libro ya existe!' });
             }
+            console.error(error);
             res.status(400).json({error: 'Error al crear el libro!'});
         }
     },
 
     async ObtenerId(req, res){
         try {
-            const libro = await Libro.findByPk(req.params.id, {include: ['genero']});
+            const libro = await Libro.findOne({
+                where: {
+                    id: req.params.id,
+                    usuarioId: req.usuario.id
+                }, include: ['genero']
+
+            });
             if (!libro) return res.status(404).json({error: 'Libro no encontrado'});
             res.json(libro);
         }catch (error){
@@ -48,7 +61,11 @@ const libroController = {
 
     async actualizar(req, res){
         try {
-            const libro = await Libro.findByPk(req.params.id);
+            const libro = await Libro.findOne({
+                where: {
+                    id: req.params.id,
+                    usuarioId: req.usuario.id
+                }});
             if (!libro) return res.status(404).json({ error: 'Libro no encontrado' });
             await libro.update(req.body);
             res.json(libro);
@@ -60,7 +77,11 @@ const libroController = {
 
     async eliminar(req, res) {
         try {
-            const libro = await Libro.findByPk(req.params.id);
+            const libro = await Libro.findOne({
+                where: {
+                    id: req.params.id,
+                    usuarioId: req.usuario.id
+                }});
             if (!libro) return res.status(404).json({ error: 'Libro no encontrado' });
             await libro.destroy();
             res.json({ mensaje: 'Libro eliminado correctamente' });
