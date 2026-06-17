@@ -1,45 +1,30 @@
 import React, { useState } from 'react';
-import Registro from './Registro';
 
-const Login = ({ onLogin }) => {
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [mostrarRegistro, setMostrarRegistro] = useState(false);
-
+const Registro = ({ onRegistroExitoso }) => {
+  const [formData, setFormData] = useState({ nombre: '', email: '', password: '' });
   const apiBase = process.env.REACT_APP_API_BASE_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
-  const handleLogin = async (e) => {
+  const handleRegistro = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${apiBase.replace(/\/$/, '')}/usuarios/login`, {
+      const response = await fetch(`${apiBase.replace(/\/$/, '')}/usuarios/registro`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(formData)
       });
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        alert('Login correcto');
-        onLogin();
+        alert('Registro exitoso, ahora puedes iniciar sesión');
+        onRegistroExitoso(); 
       } else {
-        alert(data.mensaje || 'Error al iniciar sesión');
+        alert(data.mensaje || 'Error al registrarse');
       }
     } catch (error) {
       console.error(error);
-      alert('Error al iniciar sesión');
+      alert('Error de conexión al registrarse');
     }
   };
-
-  if (mostrarRegistro) {
-    return (
-      <Registro
-        onRegistroExitoso={() => {
-          alert("Registro exitoso, ahora puedes iniciar sesión");
-          setMostrarRegistro(false); 
-        }}
-      />
-    );
-  }
 
   return (
     <div style={{
@@ -50,7 +35,7 @@ const Login = ({ onLogin }) => {
       backgroundColor: '#f0f0f0'
     }}>
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegistro}
         style={{
           backgroundColor: 'white',
           padding: '30px',
@@ -62,46 +47,45 @@ const Login = ({ onLogin }) => {
           width: '300px'
         }}
       >
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Iniciar sesión</h2>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Registro</h2>
+        <input
+          type="text"
+          placeholder="Nombre"
+          value={formData.nombre}
+          onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+          style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+          required
+        />
         <input
           type="email"
           placeholder="Email"
-          value={loginData.email}
-          onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
           required
         />
         <input
           type="password"
           placeholder="Contraseña"
-          value={loginData.password}
-          onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
           required
         />
         <button type="submit" style={{
           padding: '10px',
-          backgroundColor: '#673ab7',
+          backgroundColor: '#4CAF50',
           color: 'white',
           border: 'none',
           borderRadius: '4px',
           cursor: 'pointer',
           fontWeight: 'bold'
         }}>
-          Ingresar
+          Registrarse
         </button>
-        <p style={{ textAlign: 'center', marginTop: '10px' }}>
-          No tienes cuenta?{" "}
-          <span
-            onClick={() => setMostrarRegistro(true)}
-            style={{ color: '#673ab7', cursor: 'pointer', fontWeight: 'bold' }}
-          >
-            Registrarme
-          </span>
-        </p>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Registro;

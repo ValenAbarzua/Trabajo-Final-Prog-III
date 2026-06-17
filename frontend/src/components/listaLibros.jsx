@@ -6,6 +6,7 @@ const ListaLibros = ({onLogout}) => {
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [editando, setEditando] = useState(null);
     const [pagina, setPagina] = useState(1);
+    const [vista, setVista] = useState("libros");
     const [totalPaginas, setTotalPaginas]= useState(1);
     const [formData, setFormData] = useState({
         titulo: '',
@@ -248,32 +249,104 @@ const ListaLibros = ({onLogout}) => {
             margin: '0 auto',
             boxSizing: 'border-box' 
             }}>
-            <h2>Mis libros</h2>
-            <button onClick={onLogout} style={{
-                backgroundColor: "#e53935",
-                color: "white",
-                padding: "10px",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                marginBottom: "20px"
-            }}>
-            Cerrar sesión
-            </button>
+            <div
+                style= {{
+                    background: '#fff',
+                    padding: '20px',
+                    borderRadius: '12px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                    marginBottom: '25px'
+                }}
+            >
+                <div
+                    style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '10px'
+                }}
+                >
+                    <h2 style={{margin: 0}}>
+                        Mi biblioteca personal
+                    </h2>
+
+                    <button 
+                        onClick={onLogout}
+                        style={{
+                            backgroundColor: '#e53935',
+                            color: 'white',
+                            padding: '10px 15px',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Cerrar sesion
+                    </button>     
+                </div>
+
+                <div style={{
+                    display: 'flex',
+                    gap: '10px',
+                    marginTop: '20px'
+                }}
+                >
+                    <button 
+                        onClick={() => setVista("libros")}
+                        style={{
+                            padding: '10px 20px',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            backgroundColor:
+                            vista === 'libros'
+                                ? '#1976d2'
+                                : '#e0e0e0',
+                            color:
+                            vista === 'libros'
+                            ? 'white'
+                            : 'black'
+                        }}
+                    >
+                        Libros
+                    </button>
+                    <button 
+                        onClick={() => setVista("generos")}
+                        style={{
+                            padding: '10px 20px',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            backgroundColor:
+                            vista === 'generos'
+                                ? '#1976d2'
+                                : '#e0e0e0',
+                            color:
+                            vista === 'generos'
+                                ? 'white'
+                                : 'black'
+                        }}
+                    >
+                    Generos 
+                    </button>
+                </div>
+            </div>
+        {vista === "libros" && (
+        <>
             <button
                 onClick={() => setMostrarFormulario(true)}
                 style={{
                     backgroundColor: '#4CAF50',
                     color: 'white',
-                    padding: '10px',
-                    minWidth: '120px',
+                    padding: '10px 15px',
                     border: 'none',
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     cursor: 'pointer',
                     marginBottom: '20px'
                 }}
             >
-                Agregar Nuevo Libro
+                + Agregar un libro
             </button>
 
             {mostrarFormulario && (
@@ -284,6 +357,24 @@ const ListaLibros = ({onLogout}) => {
                     borderRadius: '4px',
                     backgroundColor: '#f9f9f9'
                 }}>
+                    <div
+                        style={{
+                        background: '#f5f8ff',
+                        padding: '20px',
+                        borderRadius: '12px',
+                        marginBottom: '20px'
+                    }}
+                >
+                <h3 style={{ marginTop: 0 }}>
+                Mis Libros
+                </h3>
+
+                <p style={{ marginBottom: 0 }}>
+                Tu biblioteca personal,
+                agrega tus libros, edita su informacion
+                y lleva tu seguimiento de lectura.
+                </p>
+            </div>
                     <h3>{editando ? 'Editar Libro' : 'Nuevo Libro'}</h3>
                     <form onSubmit={handleSubmit}>
                         <div style={{ marginBottom: '10px' }}>
@@ -396,7 +487,6 @@ const ListaLibros = ({onLogout}) => {
                     </form>
                 </div>
             )}
-
             {libros.length === 0 ? (
                 <p>No hay libros registrados!</p>
             ) : (
@@ -482,7 +572,11 @@ const ListaLibros = ({onLogout}) => {
             Siguiente
             </button>
             </div>
+        </>
+        )}
 
+        {vista === "generos" && (
+        <>
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f6f9ff' }}>
                 <h3>Generos</h3>
                 <p style={{ marginBottom: '15px', color: '#555' }}>
@@ -579,12 +673,17 @@ const ListaLibros = ({onLogout}) => {
                             </li>
                         ))}
                     </ul>
-                )}
-                
-        </div>
+                )}       
+            </div>
+        </>
+        )}
     </div>
+    
     );
 };
+
+
+
 
 
 export default ListaLibros;
