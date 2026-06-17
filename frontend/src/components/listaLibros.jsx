@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 
-const ListaLibros = () => {
+const ListaLibros = ({onLogout}) => {
     const [libros, setLibros] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -248,7 +248,18 @@ const ListaLibros = () => {
             margin: '0 auto',
             boxSizing: 'border-box' 
             }}>
-            <h2>Lista de libros</h2>
+            <h2>Mis libros</h2>
+            <button onClick={onLogout} style={{
+                backgroundColor: "#e53935",
+                color: "white",
+                padding: "10px",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                marginBottom: "20px"
+            }}>
+            Cerrar sesión
+            </button>
             <button
                 onClick={() => setMostrarFormulario(true)}
                 style={{

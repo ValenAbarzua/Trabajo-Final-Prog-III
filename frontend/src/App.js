@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import ListaLibros from './components/listaLibros';
 import Login from './components/Login';
 
 function App() {
-  const token = localStorage.getItem("token")
+  const [logueado, setLogueado] = useState(!!localStorage.getItem("token"));
+
+  const handleLoginSuccess = () => setLogueado(true);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLogueado(false);
+  };
+
   return (
     <div className="App">
-      {token ? <ListaLibros /> : <Login />}
+      {logueado ? (
+        <ListaLibros onLogout={handleLogout} />
+      ) : (
+        <Login onLogin={handleLoginSuccess} />
+      )}
     </div>
   );
 }
