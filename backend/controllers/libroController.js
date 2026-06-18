@@ -26,6 +26,20 @@ const libroController = {
     },
     async crear(req,res){
         try {
+            console.log("Usuario:", req.usuario.id);
+            console.log("Titulo:", req.body.titulo);
+            console.log("Existe libro:", existeLibro);
+            const existeLibro = await Libro.findOne({
+                where: {
+                    titulo: req.body.titulo,
+                    usuarioId: req.usuario.id
+                }
+            });
+            if (existeLibro) {
+                return res.status(400).json({
+                    error: 'Este libro ya existe!'
+                });
+            }
             const nuevoLibro = await Libro.create({
                 ...req.body,
                 usuarioId: req.usuario.id

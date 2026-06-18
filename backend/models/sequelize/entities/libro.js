@@ -3,7 +3,6 @@ module.exports= (sequelize, DataTypes) => {
         titulo: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true //El titulo va a ser unico
         },
         autor: {
             type: DataTypes.STRING,
