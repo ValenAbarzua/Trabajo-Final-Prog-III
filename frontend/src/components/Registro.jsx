@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Registro = ({ onRegistroExitoso }) => {
+const Registro = ({ onRegistroExitoso, onCancelar }) => {
   const [formData, setFormData] = useState({ nombre: '', email: '', password: '' });
   const apiBase = process.env.REACT_APP_API_BASE_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
@@ -83,6 +83,21 @@ const Registro = ({ onRegistroExitoso }) => {
         }}>
           Registrarse
         </button>
+        <button
+          type="button"
+          onClick={onCancelar} 
+          style={{
+          backgroundColor: '#f44336',
+          color: 'white',
+          padding: '10px',
+          flex: 1,
+          border: 'none',
+          borderRadius: '6px',
+          cursor: 'pointer'
+        }}
+      >
+        Cancelar
+      </button>
       </form>
     </div>
   );

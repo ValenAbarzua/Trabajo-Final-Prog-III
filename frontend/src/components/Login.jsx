@@ -38,6 +38,7 @@ const Login = ({ onLogin }) => {
           alert("Registro exitoso, ahora puedes iniciar sesión");
           setMostrarRegistro(false); 
         }}
+        onCancelar={() => setMostrarRegistro(false)}
       />
     );
   }
