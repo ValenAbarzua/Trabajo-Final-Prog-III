@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
         nombre: {
             type: DataTypes.STRING,
             allowNull: false, //el string es obligatorio
+        },
+        usuarioId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
         }
     })
 
@@ -15,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'generoId',
             as: 'libros'
         })
+
+    Genero.belongsTo(models.Usuario, {
+        foreignKey: "usuarioId",
+        as: "usuario"
+
+        })
     }
+
+
 
 return Genero;
 }

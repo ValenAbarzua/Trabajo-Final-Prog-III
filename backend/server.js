@@ -62,7 +62,7 @@ async function startServer() {
     console.log('✅ Database connection established successfully.');
     
     // En desarrollo, sincronizar modelos
-    await sequelize.sync(); //CAMBIAR TEMPORALMENTE
+    await sequelize.sync({alter: true}); //CAMBIAR TEMPORALMENTE
     console.log('✅ Database synchronized');
     
     
