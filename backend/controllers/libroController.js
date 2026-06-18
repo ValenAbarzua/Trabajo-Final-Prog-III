@@ -1,4 +1,3 @@
-const { ResultWithContextImpl } = require('express-validator/lib/chain');
 const {Libro, Genero}= require('../models')
 const libroController = {
     async obtenerTodos(req,res){
@@ -28,7 +27,6 @@ const libroController = {
         try {
             console.log("Usuario:", req.usuario.id);
             console.log("Titulo:", req.body.titulo);
-            console.log("Existe libro:", existeLibro);
             const existeLibro = await Libro.findOne({
                 where: {
                     titulo: req.body.titulo,
