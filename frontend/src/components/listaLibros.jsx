@@ -75,15 +75,14 @@ const ListaLibros = ({onLogout}) => {
             generoId: formData.generoId ? parseInt(formData.generoId) : null
         };
 
-        console.log('Enviando datos:', dataToSend); // Debug
-
+        console.log('Enviando datos:', dataToSend); 
         try {
             const url = editando
                 ? `${apiBase.replace(/\/$/, '')}/libros/${editando.id}`
                 : `${apiBase.replace(/\/$/, '')}/libros`;
 
             const method = editando ? 'PUT' : 'POST';
-            console.log('URL:', url, 'Method:', method); // Debug
+            console.log('URL:', url, 'Method:', method);
 
             const response = await fetch(url, {
                 method,
@@ -94,11 +93,11 @@ const ListaLibros = ({onLogout}) => {
                 body: JSON.stringify(dataToSend),
             });
 
-            console.log('Response status:', response.status); // Debug
+            console.log('Response status:', response.status); 
 
             if (response.ok) {
                 const result = await response.json();
-                console.log('Libro guardado:', result); // Debug
+                console.log('Libro guardado:', result); 
                 await obtenerLibros();
                 setMostrarFormulario(false);
                 setEditando(null);
@@ -106,7 +105,9 @@ const ListaLibros = ({onLogout}) => {
                 alert(editando ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
             } else {
                 const error = await response.json();
-                alert('Error al guardar el libro: ' + error.error);
+                console.log("ERROR BACKEND ", error);
+                alert(JSON.stringify(error)); //EDITAR
+                //alert('Error al guardar el libro: ' + error.error);
             }
         } catch (error) {
             console.error('Error al guardar el libro', error);

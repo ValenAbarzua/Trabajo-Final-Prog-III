@@ -52,8 +52,8 @@ const libroController = {
             if (error.name === 'SequelizeUniqueConstraintError') {
                 return res.status(400).json({ error: 'Este libro ya existe!' });
             }
-            console.error(error);
-            res.status(400).json({error: 'Error al crear el libro!'});
+            console.error("ERROR CREAR LIBRO: ", error);
+            res.status(400).json({error: error.message});
         }
     },
 
