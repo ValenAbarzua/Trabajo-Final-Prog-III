@@ -83,7 +83,7 @@ const Login = ({ onLogin }) => {
         />
         <button type="submit" style={{
           padding: '10px',
-          backgroundColor: '#673ab7',
+          backgroundColor: '#6cb384',
           color: 'white',
           border: 'none',
           borderRadius: '4px',
@@ -96,7 +96,7 @@ const Login = ({ onLogin }) => {
           No tienes cuenta?{" "}
           <span
             onClick={() => setMostrarRegistro(true)}
-            style={{ color: '#673ab7', cursor: 'pointer', fontWeight: 'bold' }}
+            style={{ color: '#6cb384', cursor: 'pointer', fontWeight: 'bold' }}
           >
             Registrarme
           </span>

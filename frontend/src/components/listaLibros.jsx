@@ -42,7 +42,11 @@ const ListaLibros = ({onLogout}) => {
 
     const obtenerGeneros = useCallback(async () => {
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`);
+            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
             const data = await response.json();
             setGeneros(data || []);
         } catch (error) {

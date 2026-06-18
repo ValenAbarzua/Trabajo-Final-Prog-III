@@ -74,7 +74,7 @@ const Registro = ({ onRegistroExitoso, onCancelar }) => {
         />
         <button type="submit" style={{
           padding: '10px',
-          backgroundColor: '#4CAF50',
+          backgroundColor: '#6cb384',
           color: 'white',
           border: 'none',
           borderRadius: '4px',
