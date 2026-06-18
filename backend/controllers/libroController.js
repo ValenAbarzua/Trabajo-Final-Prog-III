@@ -25,8 +25,6 @@ const libroController = {
     },
     async crear(req,res){
         try {
-            console.log("Usuario:", req.usuario.id);
-            console.log("Titulo:", req.body.titulo);
             const existeLibro = await Libro.findOne({
                 where: {
                     titulo: req.body.titulo,
@@ -50,7 +48,6 @@ const libroController = {
             if (error.name === 'SequelizeUniqueConstraintError') {
                 return res.status(400).json({ error: 'Este libro ya existe!' });
             }
-            console.error("ERROR CREAR LIBRO: ", error);
             res.status(400).json({error: error.message});
         }
     },

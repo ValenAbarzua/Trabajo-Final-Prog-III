@@ -19,6 +19,7 @@ const Login = ({ onLogin }) => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('nombre', data.usuario.nombre);
         alert('Login correcto');
         onLogin();
       } else {

@@ -19,6 +19,7 @@ const ListaLibros = ({onLogout}) => {
     const [nuevoGenero, setNuevoGenero] = useState('');
     const [cargandoGeneros, setCargandoGeneros] = useState(true);
 
+    const nombreUsuario = localStorage.getItem("nombre");
     const apiBase = process.env.REACT_APP_API_BASE_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
     const obtenerLibros = useCallback(async () => {
@@ -269,7 +270,7 @@ const ListaLibros = ({onLogout}) => {
                 }}
                 >
                     <h2 style={{margin: 0}}>
-                        Mi biblioteca personal
+                        Biblioteca personal de {nombreUsuario}
                     </h2>
 
                     <button 
