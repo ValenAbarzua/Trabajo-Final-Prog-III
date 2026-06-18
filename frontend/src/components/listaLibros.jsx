@@ -73,7 +73,8 @@ const ListaLibros = ({onLogout}) => {
             autor: formData.autor.trim(),
             anio: String(formData.anio).trim(), // Asegurar que sea string
             estadoLectura: formData.estadoLectura,
-            generoId: formData.generoId ? parseInt(formData.generoId) : null
+            generoId: formData.generoId ? parseInt(formData.generoId) : null,
+            calificacion: formData.calificacion ? parseInt(formData.calificacion) : null
         };
 
         console.log('Enviando datos:', dataToSend); 
@@ -102,7 +103,7 @@ const ListaLibros = ({onLogout}) => {
                 await obtenerLibros();
                 setMostrarFormulario(false);
                 setEditando(null);
-                setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '' });
+                setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '', calificacion: '' });
                 alert(editando ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
             } else {
                 const error = await response.json();
@@ -123,7 +124,8 @@ const ListaLibros = ({onLogout}) => {
             autor: libro.autor,
             anio: libro.anio,
             estadoLectura: libro.estadoLectura,
-            generoId: libro.generoId || libro.genero?.id || ''
+            generoId: libro.generoId || libro.genero?.id || '',
+            calificacion: libro.calificacion
         });
         setMostrarFormulario(true);
     };
@@ -238,10 +240,10 @@ const ListaLibros = ({onLogout}) => {
     const handleCancel = () => {
         setMostrarFormulario(false);
         setEditando(null);
-        setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '' });
+        setFormData({ titulo: '', autor: '', anio: '', estadoLectura: 'por leer', generoId: '', calificacion: '' });
     };
 
-    if (cargando) return <p>Cargando libros...</p>;
+    if (cargando) return <p>Cargando biblioteca personal...</p>;
 
     return (
         <div style={{ 
@@ -253,11 +255,12 @@ const ListaLibros = ({onLogout}) => {
             }}>
             <div
                 style= {{
-                    background: '#fff',
+                    backgroundColor: '#6cb384',
                     padding: '20px',
                     borderRadius: '12px',
                     boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
-                    marginBottom: '25px'
+                    marginBottom: '25px',
+                    color: 'white'
                 }}
             >
                 <div
@@ -276,7 +279,7 @@ const ListaLibros = ({onLogout}) => {
                     <button 
                         onClick={onLogout}
                         style={{
-                            backgroundColor: '#e53935',
+                            backgroundColor: '#F44336',
                             color: 'white',
                             padding: '10px 15px',
                             border: 'none',
@@ -303,7 +306,7 @@ const ListaLibros = ({onLogout}) => {
                             cursor: 'pointer',
                             backgroundColor:
                             vista === 'libros'
-                                ? '#1976d2'
+                                ? '#1f7421'
                                 : '#e0e0e0',
                             color:
                             vista === 'libros'
@@ -322,7 +325,7 @@ const ListaLibros = ({onLogout}) => {
                             cursor: 'pointer',
                             backgroundColor:
                             vista === 'generos'
-                                ? '#1976d2'
+                                ? '#1f7421'
                                 : '#e0e0e0',
                             color:
                             vista === 'generos'
@@ -339,7 +342,7 @@ const ListaLibros = ({onLogout}) => {
             <button
                 onClick={() => setMostrarFormulario(true)}
                 style={{
-                    backgroundColor: '#4CAF50',
+                    backgroundColor: '#1f7421',
                     color: 'white',
                     padding: '10px 15px',
                     border: 'none',
@@ -422,6 +425,21 @@ const ListaLibros = ({onLogout}) => {
                                 <option value="leido">Leído</option>
                             </select>
                         </div>
+                        <div style={{ marginBottom: '10px'}}>
+                            <label> Calificacion: </label>
+                            <select
+                                value={formData.calificacion || ''}
+                                onChange={(e) => setFormData({ ...formData, calificacion: e.target.value })}
+                                style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            >
+                            <option value=""> Sin calificacion </option>
+                            <option value="1">⭐ 1</option>
+                            <option value="2">⭐⭐ 2</option>
+                            <option value="3">⭐⭐⭐ 3</option>
+                            <option value="4">⭐⭐⭐⭐ 4</option>
+                            <option value="5">⭐⭐⭐⭐⭐ 5</option>
+                            </select>
+                        </div>
                         <div style={{ marginBottom: '20px' }}>
                             <label>Género:</label>
                             {generos.length > 0 ? (
@@ -458,7 +476,7 @@ const ListaLibros = ({onLogout}) => {
                             <button
                                 type="submit"
                                 style={{
-                                    backgroundColor: '#2196F3',
+                                    backgroundColor: '#6cb384',
                                     color: 'white',
                                     padding: '10px',
                                     minWidth: '120px', 
@@ -512,13 +530,19 @@ const ListaLibros = ({onLogout}) => {
                                 <div style={{ marginBottom: '8px'}}>
                                     <strong>{libro.titulo}</strong> <br />
                                     {libro.autor} ({libro.anio}) <br />
-                                    Estado: {libro.estadoLectura} | Género: {libro.genero?.nombre || 'Sin género'}
+                                    Estado: {libro.estadoLectura} | Género: {libro.genero?.nombre || 'Sin género'} <br />
+                                    {libro.calificacion && (
+                                        <span>
+                                        Calificación: {"⭐".repeat(libro.calificacion)}
+                                        </span>
+                                    )} <br />
+
                                 </div>
                                 <div>
                                     <button
                                         onClick={() => handleEdit(libro)}
                                         style={{
-                                            backgroundColor: '#ff9800',
+                                            backgroundColor: '#6cb384',
                                             color: 'white',
                                             padding: '5px',
                                             minWidth: '100px',
