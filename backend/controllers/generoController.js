@@ -29,7 +29,7 @@ const generoController = {
 
     async editar(req, res) {
         try{
-            const genero = await Genero.findByPk({
+            const genero = await Genero.findOne({
                 where: {id: req.params.id, usuarioId: req.usuario.id}
             });
             if (!genero) return res.status(404).json({ error: 'Genero no encontrado' });
@@ -43,7 +43,7 @@ const generoController = {
 
     async eliminar(req,res) {
         try{
-            const genero = await Genero.findByPk({
+            const genero = await Genero.findOne({
                 where: { id: req.params.id, usuarioId: req.usuario.id}
             });
             if (!genero) return res.status(404).json({ error: 'Genero no encontrado' });
