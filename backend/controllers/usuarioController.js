@@ -63,9 +63,21 @@ const loginUsuario = async (req, res) => {
             }, 
             process.env.JWT_SECRET,
             {
-                expiresIn: "1h"
+                expiresIn: "30s" //CAMBIAR DESPUES
             }
         );
+
+        const refreshToken = jwt.sign(
+            { id: usuario.id },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: "7d"}
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict"
+        });
 
         res.status(200).json({
             mensaje: "Login exitoso!",
@@ -81,9 +93,27 @@ const loginUsuario = async (req, res) => {
             mensaje: error.message
         });
     }
+};
+
+const refreshToken = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(401).json({ error: "No hay refresh token" });
+
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+        if (err) return res.status(403).json({ error: "Refresh token invalido" });
+
+        const nuevoAccessToken = jwt.sign(
+            { id: decoded.id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1m" }
+        );
+
+    res.json({ token: nuevoAccessToken });
+  });
 }
 
 module.exports = {
     registrarUsuario,
-    loginUsuario
+    loginUsuario,
+    refreshToken
 }

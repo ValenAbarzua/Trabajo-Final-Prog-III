@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
+import { fetchConToken } from '../utils/api';
 
 const ListaLibros = ({onLogout}) => {
     const [libros, setLibros] = useState([]);
@@ -24,7 +25,7 @@ const ListaLibros = ({onLogout}) => {
 
     const obtenerLibros = useCallback(async () => {
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`,
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -42,7 +43,7 @@ const ListaLibros = ({onLogout}) => {
 
     const obtenerGeneros = useCallback(async () => {
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`, {
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -90,7 +91,7 @@ const ListaLibros = ({onLogout}) => {
             const method = editando ? 'PUT' : 'POST';
             console.log('URL:', url, 'Method:', method);
 
-            const response = await fetch(url, {
+            const response = await fetchConToken(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -137,7 +138,7 @@ const ListaLibros = ({onLogout}) => {
     const handleDelete = async (id) => {
         if (window.confirm('Estas seguro de que quieres eliminar este libro?')) {
             try {
-                const response = await fetch(`${apiBase.replace(/\/$/, '')}/libros/${id}`, {
+                const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/libros/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -167,7 +168,7 @@ const ListaLibros = ({onLogout}) => {
         }
 
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos`, {
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ const ListaLibros = ({onLogout}) => {
         if (!window.confirm('Estas seguro de que quieres eliminar este genero?')) return;
 
         try {
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${id}`, {
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -220,7 +221,7 @@ const ListaLibros = ({onLogout}) => {
         );
         if (!nuevoNombre) return;
         try{
-            const response = await fetch(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -466,13 +467,13 @@ const ListaLibros = ({onLogout}) => {
                                     value={formData.generoId}
                                     onChange={(e) => setFormData({...formData, generoId: e.target.value})}
                                     required
-                                    placeholder="Ingresa ID de género"
+                                    placeholder="Carga tus generos en la seccion 'Generos'"
                                     style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                                 />
                             )}
                             {generos.length === 0 && (
                                 <p style={{ fontSize: '0.9rem', color: '#555', marginTop: '8px' }}>
-                                    No hay géneros cargados en la API. Si no hay opciones, crea un género primero o ingresa el ID manualmente.
+                                    No hay generos cargados! Si no hay opciones, crea un genero primero.
                                 </p>
                             )}
                         </div>
@@ -610,7 +611,7 @@ const ListaLibros = ({onLogout}) => {
             <div style={{ marginTop: '40px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f6f9ff' }}>
                 <h3>Generos</h3>
                 <p style={{ marginBottom: '15px', color: '#555' }}>
-                    Generos existentes y crear nuevos generos para usar en tus libros!
+                    Generos guardados para poder utilizar en tus libros!
                 </p>
 
                 <form onSubmit={handleNuevoGeneroSubmit} style={{ marginBottom: '20px' }}>

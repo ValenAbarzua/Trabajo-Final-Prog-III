@@ -11,7 +11,7 @@ const verificarToken = (req, res, next) => {
         req.usuario = decoded;
         next()
     } catch (error) {
-        return res.status(403).json({error: 'El token es invalido o expiro!'})
+        return res.status(401).json({error: 'El token es invalido o expiro!'})
     };
 };
 module.exports= verificarToken;
