@@ -43,11 +43,7 @@ const ListaLibros = ({onLogout}) => {
 
     const obtenerGeneros = useCallback(async () => {
         try {
-            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            });
+            const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos`);
             const data = await response.json();
             setGeneros(data || []);
         } catch (error) {
@@ -170,10 +166,6 @@ const ListaLibros = ({onLogout}) => {
         try {
             const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
                 body: JSON.stringify({ nombre: nuevoGenero.trim() }),
             });
 
@@ -196,11 +188,7 @@ const ListaLibros = ({onLogout}) => {
 
         try {
             const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                method: 'DELETE'
             });
             if (response.ok) {
                 await obtenerGeneros();
@@ -223,10 +211,6 @@ const ListaLibros = ({onLogout}) => {
         try{
             const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/generos/${genero.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
                 body: JSON.stringify({ nombre: nuevoNombre.trim() })
             });
             if (response.ok) {

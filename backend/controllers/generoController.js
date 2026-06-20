@@ -33,6 +33,7 @@ const generoController = {
                 where: {id: req.params.id, usuarioId: req.usuario.id}
             });
             if (!genero) return res.status(404).json({ error: 'Genero no encontrado' });
+            genero.nombre = req.body.nombre
             await genero.save();
             res.json(genero);
         } catch (error) {
