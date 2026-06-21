@@ -14,18 +14,31 @@ const generoController = {
         }
     },
 
-    async crear(req,res){
-        try {
-            const nuevoGenero = await Genero.create({
-                nombre: req.body.nombre,
-                usuarioId: req.usuario.id
-            });
-            res.status(201).json(nuevoGenero);
-        } catch (error) {
-            res.status(400).json({error: 'Error al crear el genero'});
-            
+    async crear(req, res) {
+    try {
+        const nombre = req.body.nombre.trim();
+        const existente = await Genero.findOne({
+        where: {
+            nombre,
+            usuarioId: req.usuario.id
         }
+        });
+
+        if (existente) {
+        return res.status(400).json({ error: "Este genero ya existe!" });
+        }
+
+        const nuevoGenero = await Genero.create({
+        nombre,
+        usuarioId: req.usuario.id
+        });
+        res.status(201).json(nuevoGenero);
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: "Error al crear el genero" });
+    }
     },
+
 
     async editar(req, res) {
         try{
