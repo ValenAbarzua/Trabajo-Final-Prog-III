@@ -446,20 +446,30 @@ const ListaLibros = ({onLogout}) => {
                                     ))}
                                 </select>
                             ) : (
-                                <input
-                                    type="number"
-                                    value={formData.generoId}
-                                    onChange={(e) => setFormData({...formData, generoId: e.target.value})}
-                                    required
-                                    placeholder="Carga tus generos en la seccion 'Generos'"
-                                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
-                                />
-                            )}
-                            {generos.length === 0 && (
-                                <p style={{ fontSize: '0.9rem', color: '#555', marginTop: '8px' }}>
-                                    No hay generos cargados! Si no hay opciones, crea un genero primero.
-                                </p>
-                            )}
+                            <div style={{ marginTop: '10px' }}>
+                            <p style={{ fontSize: '0.9rem', color: '#555' }}>
+                            No hay géneros cargados. Debes crear uno antes de registrar un libro.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    window.location.href = '/generos';
+                                }}
+                                style={{
+                                backgroundColor: '#2196F3',
+                                color: 'white',
+                                padding: '8px 12px',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                                }}
+                                >
+                                Crear género
+                            </button>
+                        </div>
+                                
+                        )}
+
                         </div>
                         <div>
                             <button
