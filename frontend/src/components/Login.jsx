@@ -13,6 +13,7 @@ const Login = ({ onLogin }) => {
       const response = await fetch(`${apiBase.replace(/\/$/, '')}/usuarios/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
         body: JSON.stringify(loginData)
       });
       const data = await response.json();

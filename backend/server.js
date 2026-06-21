@@ -16,8 +16,12 @@ app.use(helmet());
 // CORS
 app.use(
   cors({
-    origin: "*",
-  }));
+  origin: [
+    "http://localhost:3000",
+    "https://trabajo-final-prog-iii.vercel.app"
+  ],
+  credentials: true
+}));
 
 // Middleware de parsing
 app.use(express.json({ limit: '10mb' }));
