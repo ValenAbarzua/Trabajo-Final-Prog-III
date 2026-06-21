@@ -448,24 +448,24 @@ const ListaLibros = ({onLogout}) => {
                             ) : (
                             <div style={{ marginTop: '10px' }}>
                             <p style={{ fontSize: '0.9rem', color: '#555' }}>
-                            No hay géneros cargados. Debes crear uno antes de registrar un libro.
+                            No hay géneros cargados. Debes crear uno antes de registrar o actualizar un libro.
                             </p>
+                            
                             <button
-                                type="button"
-                                onClick={() => {
-                                    window.location.href = '/api/generos';
-                                }}
-                                style={{
-                                backgroundColor: '#6d8d6a',
-                                color: 'white',
-                                padding: '8px 12px',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                                }}
-                                >
-                                Crear género
+                            type="button"
+                            onClick={() => setVista("generos")}
+                            style={{
+                            backgroundColor: '#ff9800',
+                            color: 'white',
+                            padding: '8px 12px',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                            }}
+                            >
+                            Ir a crear género
                             </button>
+                            
                         </div>
                                 
                         )}
