@@ -7,7 +7,8 @@ export async function fetchConToken(url, options = {}) {
       ...options.headers,
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
-    }
+    },
+    credentials: "include"
   });
 
   if (res.status === 401) {
@@ -25,7 +26,8 @@ export async function fetchConToken(url, options = {}) {
         ...options.headers,
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
-      }
+      },
+      credentials: "include"
     });
   }
 
