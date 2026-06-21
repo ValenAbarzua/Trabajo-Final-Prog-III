@@ -73,10 +73,11 @@ const loginUsuario = async (req, res) => {
             { expiresIn: "7d"}
         );
 
+        console.log("Creando refresh token");
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "lax" //TEMPORAL
+            sameSite: "none" //TEMPORAL
         });
 
         res.status(200).json({
@@ -97,10 +98,14 @@ const loginUsuario = async (req, res) => {
 
 const refreshToken = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
+    console.log("Cookies recibidas:", req.cookies);
     if (!refreshToken) return res.status(401).json({ error: "No hay refresh token" });
 
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ error: "Refresh token invalido" });
+        if (err) {
+            console.log("Error verificando token", err.message);
+            return res.status(403).json({ error: "Refresh token invalido" })
+        }
 
         const nuevoAccessToken = jwt.sign(
             { id: decoded.id },
