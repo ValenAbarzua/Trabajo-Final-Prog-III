@@ -453,10 +453,10 @@ const ListaLibros = ({onLogout}) => {
                             <button
                                 type="button"
                                 onClick={() => {
-                                    window.location.href = '/generos';
+                                    window.location.href = '/api/generos';
                                 }}
                                 style={{
-                                backgroundColor: '#2196F3',
+                                backgroundColor: '#6d8d6a',
                                 color: 'white',
                                 padding: '8px 12px',
                                 border: 'none',
