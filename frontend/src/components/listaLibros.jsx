@@ -20,7 +20,7 @@ const ListaLibros = ({onLogout}) => {
     const [nuevoGenero, setNuevoGenero] = useState('');
     const [cargandoGeneros, setCargandoGeneros] = useState(true);
 
-    const nombreUsuario = localStorage.getItem("nombre");
+    const nombreUsuario = sessionStorage.getItem("nombre");
     const apiBase = process.env.REACT_APP_API_BASE_URL || 'https://trabajo-final-prog-iii.onrender.com/api';
 
     const obtenerLibros = useCallback(async () => {
@@ -28,7 +28,7 @@ const ListaLibros = ({onLogout}) => {
             const response = await fetchConToken(`${apiBase.replace(/\/$/, '')}/libros?pagina=${pagina}&limite=5`,
             {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`
                 }
             });
             const data = await response.json();
@@ -91,7 +91,7 @@ const ListaLibros = ({onLogout}) => {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                 },
                 body: JSON.stringify(dataToSend),
             });
@@ -138,7 +138,7 @@ const ListaLibros = ({onLogout}) => {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                        Authorization: `Bearer ${sessionStorage.getItem('token')}`
                     }
                 });
 

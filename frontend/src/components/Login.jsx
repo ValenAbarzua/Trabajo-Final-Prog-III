@@ -19,8 +19,8 @@ const Login = ({ onLogin }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('nombre', data.usuario.nombre);
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('nombre', data.usuario.nombre);
         alert('Login correcto');
         onLogin();
       } else {

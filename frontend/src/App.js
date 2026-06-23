@@ -4,11 +4,11 @@ import ListaLibros from './components/listaLibros';
 import Login from './components/Login';
 
 function App() {
-  const [logueado, setLogueado] = useState(!!localStorage.getItem("token"));
+  const [logueado, setLogueado] = useState(!!sessionStorage.getItem("token"));
 
   const handleLoginSuccess = () => setLogueado(true);
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setLogueado(false);
   };
 

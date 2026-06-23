@@ -1,5 +1,5 @@
 export async function fetchConToken(url, options = {}) {
-  let token = localStorage.getItem("token");
+  let token = sessionStorage.getItem("token");
 
   let res = await fetch(url, {
     ...options,
@@ -18,7 +18,7 @@ export async function fetchConToken(url, options = {}) {
     });
     const data = await refreshRes.json();
     token = data.token;
-    localStorage.setItem("token", token);
+    sessionStorage.setItem("token", token);
 
     res = await fetch(url, {
       ...options,
