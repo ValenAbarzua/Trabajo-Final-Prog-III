@@ -63,7 +63,7 @@ const loginUsuario = async (req, res) => {
             }, 
             process.env.JWT_SECRET,
             {
-                expiresIn: "30s" //CAMBIAR DESPUES
+                expiresIn: "15m" //CAMBIAR DESPUES
             }
         );
 
@@ -73,7 +73,6 @@ const loginUsuario = async (req, res) => {
             { expiresIn: "7d"}
         );
 
-        console.log("Creando refresh token");
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: true,
@@ -98,7 +97,6 @@ const loginUsuario = async (req, res) => {
 
 const refreshToken = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    console.log("Cookies recibidas:", req.cookies);
     if (!refreshToken) return res.status(401).json({ error: "No hay refresh token" });
 
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
@@ -110,7 +108,7 @@ const refreshToken = async (req, res) => {
         const nuevoAccessToken = jwt.sign(
             { id: decoded.id },
             process.env.JWT_SECRET,
-            { expiresIn: "1m" }
+            { expiresIn: "15m" }
         );
 
     res.json({ token: nuevoAccessToken });

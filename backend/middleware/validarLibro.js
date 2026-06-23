@@ -1,7 +1,7 @@
 const validarLibro = (req, res, next) => {
     const { titulo, autor, anio, generoId} = req.body;
     if (!titulo || !autor || !anio || !generoId) {
-        return res.status(400).json({ error: 'Campos obligatorios de completar: titulo, autor, año, generoId' });
+        return res.status(400).json({ error: 'Campos obligatorios de completar: titulo, autor, año y genero' });
     }
     if (typeof titulo !== 'string' || typeof autor !== 'string') {
         return res.status(400).json({ error: 'Los campos titulo y autor deben ser cadenas de texto' });

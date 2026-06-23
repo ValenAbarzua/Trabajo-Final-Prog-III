@@ -77,8 +77,6 @@ const ListaLibros = ({onLogout}) => {
             generoId: formData.generoId ? parseInt(formData.generoId) : null,
             calificacion: formData.calificacion ? parseInt(formData.calificacion) : null
         };
-
-        console.log('Enviando datos:', dataToSend); 
         try {
             const url = editando
                 ? `${apiBase.replace(/\/$/, '')}/libros/${editando.id}`
@@ -108,9 +106,7 @@ const ListaLibros = ({onLogout}) => {
                 alert(editando ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
             } else {
                 const error = await response.json();
-                console.log("ERROR BACKEND ", error);
-                alert(JSON.stringify(error)); //EDITAR
-                //alert('Error al guardar el libro: ' + error.error);
+                alert('Error al guardar el libro: ' + error.error);
             }
         } catch (error) {
             console.error('Error al guardar el libro', error);
